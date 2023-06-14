@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do Web App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    #task-input {
+      width: 300px;
+      margin-bottom: 10px;
+    }
+    #task-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .task-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .task-item input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    .delete-btn {
+      color: red;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>To-Do APP</h1>
+  <form id="task-form">
+    <input type="text" id="task-input" placeholder="Enter task">
+    <button type="submit">Add Task</button>
+  </form>
+  <ul id="task-list"></ul>
+
+  <script>
+    // Function to handle form submission
+    function handleFormSubmit(event) {
+      event.preventDefault(); // Prevent form from refreshing the page
+
+      // Get the task input value
+      const taskInput = document.getElementById("task-input");
+      const task = taskInput.value;
+
+      if (task.trim() !== "") {
+        // Create a new task item
+        const taskItem = document.createElement("li");
+        taskItem.className = "task-item";
+
+        // Create checkbox and label elements
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        const label = document.createElement("label");
+        label.textContent = task;
+
+        // Create delete button
+        const deleteButton = document.createElement("span");
+        deleteButton.className = "delete-btn";
+        deleteButton.textContent = "Delete";
+
+        // Add checkbox, label, and delete button to task item
+        taskItem.appendChild(checkbox);
+        taskItem.appendChild(label);
+        taskItem.appendChild(deleteButton);
+
+        // Add task item to the task list
+        const taskList = document.getElementById("task-list");
+        taskList.appendChild(taskItem);
+
+        // Reset the task input value
+        taskInput.value = "";
+      }
+    }
+
+    // Function to handle task deletion
+    function deleteTask(event) {
+      const taskItem = event.target.parentNode;
+      const taskList = document.getElementById("task-list");
+      taskList.removeChild(taskItem);
+    }
+
+    // Add event listener to the form
+    const taskForm = document.getElementById("task-form");
+    taskForm.addEventListener("submit", handleFormSubmit);
+
+    // Add event listener to the task list for delegation
+    const taskList = document.getElementById("task-list");
+    taskList.addEventListener("click", function (event) {
+      if (event.target.className === "delete-btn") {
+        deleteTask(event);
+      }
+    });
+  </script>
+</body>
+</html>
